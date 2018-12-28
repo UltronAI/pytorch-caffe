@@ -1,7 +1,7 @@
 # -*- coding: utf-8
 # from pytorch2caffe import plot_graph, pytorch2caffe
 import sys
-sys.path.append('/home/gaof/caffe-dev/python')
+sys.path.append('/home/gaof/caffe-comp/python')
 import caffe
 import numpy as np
 import os
@@ -51,36 +51,36 @@ exit(0)
 # model_dict.update(pretrained_dict)
 
 # model.load_state_dict(model_dict)
-model.eval()
+# model.eval()
 
-# random input
-# image = np.random.randint(0, 255, input_size)
-image = 66*np.ones(input_size)
-input_data = image.astype(np.float32)
+# # random input
+# # image = np.random.randint(0, 255, input_size)
+# image = 66*np.ones(input_size)
+# input_data = image.astype(np.float32)
 
-# pytorch forward
-input_var = Variable(torch.from_numpy(input_data))
+# # pytorch forward
+# input_var = Variable(torch.from_numpy(input_data))
 
-# test caffemodel
-# caffe.set_device(0)
-caffe.set_mode_cpu()
-net = caffe.Net(model_def, model_weights, caffe.TEST)
+# # test caffemodel
+# # caffe.set_device(0)
+# caffe.set_mode_cpu()
+# net = caffe.Net(model_def, model_weights, caffe.TEST)
 
-net.blobs['data'].data[...] = input_data
-net.forward(start=input_name)
-caffe_output = net.blobs[output_name].data
+# net.blobs['data'].data[...] = input_data
+# net.forward(start=input_name)
+# caffe_output = net.blobs[output_name].data
 
-model = model.cpu()
-input_var = input_var.cpu()
-output_var = model(input_var)
-pytorch_output = output_var[output_name].data.cpu().numpy()
+# model = model.cpu()
+# input_var = input_var.cpu()
+# output_var = model(input_var)
+# pytorch_output = output_var[output_name].data.cpu().numpy()
 
-print(input_size, pytorch_output.shape, caffe_output.shape)
-print('pytorch: min: {}, max: {}, mean: {}'.format(pytorch_output.min(), pytorch_output.max(), pytorch_output.mean()))
-print('  caffe: min: {}, max: {}, mean: {}'.format(caffe_output.min(), caffe_output.max(), caffe_output.mean()))
+# print(input_size, pytorch_output.shape, caffe_output.shape)
+# print('pytorch: min: {}, max: {}, mean: {}'.format(pytorch_output.min(), pytorch_output.max(), pytorch_output.mean()))
+# print('  caffe: min: {}, max: {}, mean: {}'.format(caffe_output.min(), caffe_output.max(), caffe_output.mean()))
 
-diff = np.abs(pytorch_output - caffe_output)
-print('   diff: min: {}, max: {}, mean: {}, median: {}'.format(diff.min(), diff.max(), diff.mean(), np.median(diff)))
+# diff = np.abs(pytorch_output - caffe_output)
+# print('   diff: min: {}, max: {}, mean: {}, median: {}'.format(diff.min(), diff.max(), diff.mean(), np.median(diff)))
 
 
-print(pytorch_output)
+# print(pytorch_output)
